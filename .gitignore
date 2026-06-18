@@ -1,0 +1,12 @@
+# Bytecode Java
+*.class
+out/
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+*.iml
+.vscode/
