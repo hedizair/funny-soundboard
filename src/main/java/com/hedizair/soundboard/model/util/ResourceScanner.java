@@ -39,16 +39,17 @@ public class ResourceScanner {
         return new ArrayList<>();
     }
 
-    private Category recursiveScanSoundFiles(File dir) {
+    private Category recursiveScanSoundFiles(File dir, File soundsDir) {
         Category category = new Category(dir.getName(), new ArrayList<>());
         File[] files = dir.listFiles();
 
         for (File file : files) {
             if (file.isDirectory()) {
-                Category subCategory = recursiveScanSoundFiles(file);
+                Category subCategory = recursiveScanSoundFiles(file, soundsDir);
                 category.addSoundComponent(subCategory);
-            } else if (file.getName().endsWith(".wav")) {
-                category.addSoundComponent(new Sound(file.getName(), file.getAbsolutePath()));
+            } else if (file.getName().endsWith(".mp3")) {
+                category.addSoundComponent(
+                        new Sound(file.getName(), "sounds/" + soundsDir.toURI().relativize(file.toURI()).getPath()));
             }
         }
         return category;
@@ -66,7 +67,7 @@ public class ResourceScanner {
             scanResources(files);
             for (File file : files) {
                 if (file.isDirectory()) {
-                    Category category = recursiveScanSoundFiles(file);
+                    Category category = recursiveScanSoundFiles(file, soundsDir);
                     categories.add(category);
                 }
             }

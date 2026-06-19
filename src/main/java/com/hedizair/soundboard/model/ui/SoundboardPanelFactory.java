@@ -7,8 +7,13 @@ import com.hedizair.soundboard.model.core.Sound;
 import com.hedizair.soundboard.model.core.SoundboardConfig;
 
 public class SoundboardPanelFactory {
-    public SoundboardPanelFactory() {
 
+    private NavigationController navigationController;
+    private AudioPlayer audioPlayer;
+
+    public SoundboardPanelFactory(NavigationController navigationController, AudioPlayer audioPlayer) {
+        this.navigationController = navigationController;
+        this.audioPlayer = audioPlayer;
     }
 
     private SoundboardPanel recursiveBuild(SoundboardPanel panel, Category category) {
@@ -18,12 +23,12 @@ public class SoundboardPanelFactory {
                 Category subCategory = (Category) soundComponent;
                 SoundboardPanel subSoundboardPanel = new SoundboardPanel(subCategory.getName());
                 SoundboardPanel finalPanel = recursiveBuild(subSoundboardPanel, subCategory);
-                CategoryButton catButton = new CategoryButton(subCategory.getName(), finalPanel);
+                CategoryButton catButton = new CategoryButton(subCategory.getName(), finalPanel, navigationController);
                 panel.addSoundboardComponent(catButton);
 
             } else {
                 Sound sound = (Sound) soundComponent;
-                SoundButton soundButton = new SoundButton(sound.getName(), sound.getFilePath());
+                SoundButton soundButton = new SoundButton(sound.getName(), sound.getFilePath(), audioPlayer);
                 panel.addSoundboardComponent(soundButton);
 
             }
@@ -37,7 +42,7 @@ public class SoundboardPanelFactory {
         soundboardConfig.getCategories().forEach(category -> {
             SoundboardPanel categoryPanel = new SoundboardPanel(category.getName());
             SoundboardPanel finalCategoryPanel = recursiveBuild(categoryPanel, category);
-            CategoryButton catButton = new CategoryButton(category.getName(), finalCategoryPanel);
+            CategoryButton catButton = new CategoryButton(category.getName(), finalCategoryPanel, navigationController);
             rootPanel.addSoundboardComponent(catButton);
         });
         return rootPanel;

@@ -5,7 +5,9 @@ import java.util.List;
 import com.hedizair.soundboard.model.core.Category;
 import com.hedizair.soundboard.model.core.SoundComponent;
 import com.hedizair.soundboard.model.core.SoundboardConfig;
+import com.hedizair.soundboard.model.ui.AudioPlayer;
 import com.hedizair.soundboard.model.ui.MainWindow;
+import com.hedizair.soundboard.model.ui.NavigationController;
 import com.hedizair.soundboard.model.ui.SoundboardPanel;
 import com.hedizair.soundboard.model.ui.SoundboardPanelFactory;
 import com.hedizair.soundboard.model.ui.WindowConfig;
@@ -22,13 +24,17 @@ public class AppInitializer {
 
         SoundboardConfig soundboardConfig = new SoundboardConfig(categories);
 
-        SoundboardPanelFactory soundboardPanelFactory = new SoundboardPanelFactory();
-
-        SoundboardPanel rootPanel = soundboardPanelFactory.build(soundboardConfig);
-
         WindowConfig windowConfig = new WindowConfig();
 
-        MainWindow mainWindow = new MainWindow(windowConfig, rootPanel);
+        NavigationController navigationController = new NavigationController();
+
+        AudioPlayer audioPlayer = new AudioPlayer();
+
+        SoundboardPanelFactory soundboardPanelFactory = new SoundboardPanelFactory(navigationController, audioPlayer);
+        SoundboardPanel rootPanel = soundboardPanelFactory.build(soundboardConfig);
+
+        MainWindow mainWindow = new MainWindow(windowConfig, rootPanel, navigationController);
+        navigationController.setwindow(mainWindow);
 
         mainWindow.launch();
     }

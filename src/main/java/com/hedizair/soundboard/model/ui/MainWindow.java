@@ -6,11 +6,10 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 
 public class MainWindow extends JFrame {
-    private NavigationController navigationController;
     private JPanel contentContainer;
     private SoundboardPanel currentPanel;
 
-    public MainWindow(WindowConfig config, SoundboardPanel rootPanel) {
+    public MainWindow(WindowConfig config, SoundboardPanel rootPanel, NavigationController navigationController) {
         this.setTitle("Funny Soundboard");
 
         this.setSize(config.getSizeX(), config.getSizeY());
@@ -20,9 +19,6 @@ public class MainWindow extends JFrame {
         this.contentContainer.add(rootPanel, BorderLayout.CENTER);
         this.setContentPane(contentContainer);
         this.currentPanel = rootPanel;
-
-
-        this.navigationController = new NavigationController(this, rootPanel);
 
         BackButton backButton = new BackButton(navigationController);
         this.contentContainer.add(backButton, BorderLayout.WEST);
@@ -35,11 +31,14 @@ public class MainWindow extends JFrame {
     }
 
     public void changePanel(SoundboardPanel newPanel) {
-        System.out.println("Changing panel to: " + newPanel.getCategoryName());
         this.contentContainer.remove(this.currentPanel);
         this.contentContainer.add(newPanel, BorderLayout.CENTER);
         this.currentPanel = newPanel;
         this.revalidate();
         this.repaint();
+    }
+
+    public SoundboardPanel getCurrentPanel() {
+        return currentPanel;
     }
 }

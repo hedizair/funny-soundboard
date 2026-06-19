@@ -2,42 +2,31 @@ package com.hedizair.soundboard.model.ui;
 
 import java.util.Stack;
 
-import javax.swing.JPanel;
-
 public class NavigationController {
 
-    private MainWindow mainWindow;
+    private MainWindow window;
     private Stack<SoundboardPanel> navigationStack;
 
-    public NavigationController(MainWindow mainWindow, SoundboardPanel rootPanel) {
-        this.mainWindow = mainWindow;
+    public NavigationController() {
         this.navigationStack = new Stack<>();
-        this.navigationStack.push(rootPanel);
-        for (SoundboardComponent component : rootPanel.getSoundBoardComponents()) {
-            if (component instanceof CategoryButton) {
-                ((CategoryButton) component).setNavigationController(this);
-            }
-        }
     }
 
     public void navigate(SoundboardPanel targetPanel) {
-        // Logic to navigate to the specified category
-        for (SoundboardComponent component : targetPanel.getSoundBoardComponents()) {
-            if (component instanceof CategoryButton) {
-                ((CategoryButton) component).setNavigationController(this);
-            }
+        if (window == null) {
+            System.out.println("window is not set. Cannot navigate.");
+            return;
         }
         navigationStack.push(targetPanel);
-        mainWindow.changePanel(targetPanel);
+        window.changePanel(targetPanel);
     }
 
     public void reset() {
-        // Logic to navigate back to the main menu
-        if (!navigationStack.isEmpty()) {
+
+        if (!navigationStack.isEmpty() && window != null) {
             SoundboardPanel rootPanel = navigationStack.getFirst();
             navigationStack.clear();
             navigationStack.push(rootPanel);
-            mainWindow.changePanel(rootPanel);
+            window.changePanel(rootPanel);
 
         }
     }
@@ -45,10 +34,18 @@ public class NavigationController {
     public void back() {
         // Logic to navigate back to the previous screen
         System.out.println("Back button pressed");
-        if (navigationStack.size() > 1) {
+        if (navigationStack.size() > 1 && window != null) {
             System.out.println("Navigating back to previous screen");
             navigationStack.pop();
-            mainWindow.changePanel(navigationStack.peek());
+            window.changePanel(navigationStack.peek());
         }
     }
+
+    public void setwindow(MainWindow window) {
+        this.window = window;
+        this.navigationStack.clear();
+        this.navigationStack.push(window.getCurrentPanel());
+
+    }
+
 }

@@ -6,10 +6,11 @@ public class SoundButton extends JButton implements SoundboardComponent {
     private String soundName;
     private String soundFilePath;
 
-    public SoundButton(String soundName, String soundFilePath) {
+    public SoundButton(String soundName, String soundFilePath, AudioPlayer audioPlayer) {
         super(soundName);
         this.soundName = soundName;
         this.soundFilePath = soundFilePath;
+        this.addActionListener(e -> audioPlayer.play(soundFilePath));
     }
 
     public String getSoundName() {
