@@ -1,6 +1,6 @@
 # Bytecode Java
 *.class
-out/
+target/
 
 # Fichiers système
 .DS_Store
