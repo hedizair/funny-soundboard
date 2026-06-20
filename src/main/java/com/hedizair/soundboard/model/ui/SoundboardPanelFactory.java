@@ -1,7 +1,5 @@
 package com.hedizair.soundboard.model.ui;
 
-import java.util.HashMap;
-
 import com.hedizair.soundboard.model.core.Category;
 import com.hedizair.soundboard.model.core.Sound;
 import com.hedizair.soundboard.model.core.SoundboardConfig;
@@ -21,14 +19,16 @@ public class SoundboardPanelFactory {
         category.getSoundComponents().forEach(soundComponent -> {
             if (soundComponent instanceof Category) {
                 Category subCategory = (Category) soundComponent;
-                SoundboardPanel subSoundboardPanel = new SoundboardPanel(subCategory.getName());
+                SoundboardPanel subSoundboardPanel = new SoundboardPanel(subCategory.getName(), audioPlayer);
                 SoundboardPanel finalPanel = recursiveBuild(subSoundboardPanel, subCategory);
-                CategoryButton catButton = new CategoryButton(subCategory.getName(), finalPanel, navigationController);
+                CategoryButton catButton = new CategoryButton(subCategory.getName(), subCategory.getIconPath(),
+                        finalPanel, navigationController);
                 panel.addSoundboardComponent(catButton);
 
             } else {
                 Sound sound = (Sound) soundComponent;
-                SoundButton soundButton = new SoundButton(sound.getName(), sound.getFilePath(), audioPlayer);
+                SoundButton soundButton = new SoundButton(sound.getName(), sound.getFilePath(), sound.getIconPath(),
+                        audioPlayer, panel);
                 panel.addSoundboardComponent(soundButton);
 
             }
@@ -38,11 +38,13 @@ public class SoundboardPanelFactory {
     }
 
     public SoundboardPanel build(SoundboardConfig soundboardConfig) {
-        SoundboardPanel rootPanel = new SoundboardPanel("root");
+        SoundboardPanel rootPanel = new SoundboardPanel("root", audioPlayer);
         soundboardConfig.getCategories().forEach(category -> {
-            SoundboardPanel categoryPanel = new SoundboardPanel(category.getName());
+            SoundboardPanel categoryPanel = new SoundboardPanel(category.getName(), audioPlayer);
             SoundboardPanel finalCategoryPanel = recursiveBuild(categoryPanel, category);
-            CategoryButton catButton = new CategoryButton(category.getName(), finalCategoryPanel, navigationController);
+            CategoryButton catButton = new CategoryButton(category.getName(), category.getIconPath(),
+                    finalCategoryPanel,
+                    navigationController);
             rootPanel.addSoundboardComponent(catButton);
         });
         return rootPanel;
