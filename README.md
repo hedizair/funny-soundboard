@@ -187,55 +187,7 @@ Memes
 ├── Get Out
 └── ...
 
-Basics
-├── Windows XP Startup
-├── Error
-└── ...
 ```
-
----
-
-## 🏗️ Architecture Notes
-
-The application is organized around three main concerns:
-
-### Core
-
-Contains the domain objects representing:
-
-* Categories
-* Sounds
-* Icons
-* Soundboard configuration
-
-### UI
-
-Contains all Swing components:
-
-* Main window
-* Navigation controller
-* Buttons
-* Audio controls
-* Soundboard panels
-
-### Resource Discovery
-
-Resources are scanned automatically at startup to build the navigation tree dynamically.
-
-No code changes are required when adding new categories or sounds.
-
----
-
-## 🎯 Project Goal
-
-This project was created as a learning exercise to practice:
-
-* Java 21
-* Swing UI development
-* Event-driven programming
-* Resource management
-* Application architecture
-* Maven project structure
 
 ---
 
