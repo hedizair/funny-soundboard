@@ -59,6 +59,10 @@ public class NavigationController {
         return false;
     }
 
+    public Stack<SoundboardPanel> getNavigationStack() {
+        return this.navigationStack;
+    }
+
     public void addListener(NavigationListener listener) {
         listeners.add(listener);
     }

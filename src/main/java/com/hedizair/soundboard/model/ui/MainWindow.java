@@ -31,6 +31,9 @@ public class MainWindow extends JFrame {
         // Action Panel
         JPanel actionPannel = new SoundActionPanel(audioPlayer, this.currentPanel);
         this.contentContainer.add(actionPannel, BorderLayout.SOUTH);
+        // Action Panel
+        JPanel breadCrumbPanel = new BreadCrumbPanel(navigationController);
+        this.contentContainer.add(breadCrumbPanel, BorderLayout.NORTH);
 
         this.setContentPane(contentContainer);
 
